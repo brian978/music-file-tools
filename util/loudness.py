@@ -38,11 +38,23 @@ def get_peak_level(input_file):
 
 def normalize_audio_files(input_dir, output_dir, target_level=-3.0):
     """
-    :param input_dir: The directory where the input audio files are located.
-    :param output_dir: The directory where the normalized audio files will be saved.
-    :param target_level: The target peak level in dB. Default is -3.0 dB.
+    Normalizes audio files in the input directory and saves them in the output directory.
+
+    :param input_dir: The directory containing the input audio files.
+    :param output_dir: The directory to save the normalized audio files.
+    :param target_level: The target level in decibels (dB) to normalize the audio files. Default value is -3.0 dB.
     :return: None
 
+    This method loops through all files in the input directory and checks if they have supported audio file
+    extensions (.mp3 and .wav). For each supported audio file, it calculates the peak level using the get_peak_level(
+    ) function, and determines the gain adjustment needed to normalize the audio file to the target level. It then
+    retrieves the audio codec of the input file using the get_audio_codec() function. If the codec is PCM-based,
+    it includes the codec arguments for preservation of the original format. Next, it constructs an ffmpeg command to
+    normalize the audio file by adjusting the volume with the calculated gain adjustment. Finally, it runs the ffmpeg
+    command using subprocess.run() and prints the normalization results.
+
+    Note: The get_peak_level() and get_audio_codec() functions are not included here and should be defined separately
+    before calling this method.
     """
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
